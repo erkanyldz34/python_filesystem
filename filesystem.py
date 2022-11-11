@@ -201,17 +201,23 @@ class BinaryFile(Node):
         super().__init__(path, name)
         self.information = information
 
+    def __repr__(self):
+        return f"<BIN | Path: {DELIMITER.join([d.name for d in self.path]) if self.path else ''}/[ {self.name} ]>"
+
     def read(self) -> None:
         return self.information
 
 
 class LogFile(Node):
-    def __init__(self, path: list[Node], name: str, information: str = None):
+    def __init__(self, path: list[Node], name: str, information: str = ""):
         if DELIMITER in name:
             raise ValueError(f"LogFile name contains {DELIMITER}")
             
         super().__init__(path, name)
         self.information = information
+
+    def __repr__(self):
+        return f"<LOG | Path: {DELIMITER.join([d.name for d in self.path]) if self.path else ''}/[ {self.name} ]>"
 
     def read(self) -> str:
         return self.information
@@ -227,6 +233,9 @@ class BufferFile(Node):
             
         super().__init__(path, name)
         self.items = []
+
+    def __repr__(self):
+        return f"<BUF | Path: {DELIMITER.join([d.name for d in self.path]) if self.path else ''}/[ {self.name} ]>"
 
     def push(self, element: Any) -> bool:
         if len(self.items) == MAX_BUF_FILE_SIZE:
